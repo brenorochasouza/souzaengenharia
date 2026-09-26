@@ -1,0 +1,71 @@
+# Configurações gerais do site Souza Engenharia
+title: Souza Engenharia
+tagline: Engenharia Condominial
+description: >-
+  Engenharia Condominial em Salvador. Obras de impermeabilização, inspeção predial,
+  inspeção de fachadas, fiscalização de obras, projeto AVCB, laudo de SPDA e
+  consultoria para carregadores de veículos elétricos.
+lang: pt-BR
+
+# Endereço do site. Se um dia usar domínio próprio (ex.: www.souzaengenharia.com),
+# troque url pelo domínio e deixe baseurl vazio: ""
+url: "https://brenorochasouza.github.io"
+baseurl: "/souzaengenharia"
+
+# Contatos (alterar aqui atualiza o site inteiro)
+contato:
+  whatsapp: "5571997237168"
+  whatsapp_exibicao: "(71) 99723-7168"
+  whatsapp_mensagem: "Olá! Vim pelo site da Souza Engenharia e gostaria de solicitar um orçamento."
+  email: "obras@souzaengenharia.com"
+  instagram: "souzaengenhariabr"
+  regiao: "Salvador e Região Metropolitana"
+
+empresa:
+  cnpj: "49.885.935/0001-91"
+  responsavel: "Eng. Civil Breno Rocha Souza"
+  crea: "CREA-BA 052098151-0"
+
+numeros:
+  - valor: 260
+    prefixo: ""
+    sufixo: "+"
+    rotulo: "condomínios atendidos"
+  - valor: 100
+    prefixo: ""
+    sufixo: " mil m²"
+    rotulo: "de áreas inspecionadas"
+  - valor: 4.5
+    prefixo: "R$ "
+    sufixo: " mi"
+    rotulo: "em obras gerenciadas"
+  - valor: 7
+    prefixo: ""
+    sufixo: ""
+    rotulo: "frentes técnicas integradas"
+
+clientes:
+  - Rede D'Or
+  - Hospital Aliança Star
+  - Shopping Paseo
+  - Mercado do Rio Vermelho
+  - Racional Engenharia
+  - Vitória Marina Flat
+
+collections:
+  servicos:
+    output: true
+    permalink: /servicos/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: servicos
+    values:
+      layout: servico
+
+exclude:
+  - README.md
+  - COMO-ADICIONAR-FOTOS.md
+  - logosouza.png
+  - "fotos/*/LEIA-ME.md"

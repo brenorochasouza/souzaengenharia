@@ -1,0 +1,60 @@
+{% assign servicos_ordenados = site.servicos | sort: "order" %}
+<section class="cta-final" id="contato">
+  <div class="container cta-final-inner">
+    <div class="cta-final-texto revelar">
+      <p class="sobretitulo sobretitulo-claro">Fale com a Souza Engenharia</p>
+      <h2>Seu condomínio precisa de uma avaliação técnica?</h2>
+      <p>Atendemos síndicos, administradoras e empresas em {{ site.contato.regiao }}. Envie uma mensagem e agende uma visita técnica.</p>
+    </div>
+    <div class="cta-final-contatos revelar">
+      <a class="contato-card" href="https://wa.me/{{ site.contato.whatsapp }}?text={{ site.contato.whatsapp_mensagem | uri_escape }}" target="_blank" rel="noopener">
+        <span class="contato-icone">{% include icone.html nome="whatsapp" %}</span>
+        <span><small>WhatsApp</small>{{ site.contato.whatsapp_exibicao }}</span>
+      </a>
+      <a class="contato-card" href="mailto:{{ site.contato.email }}">
+        <span class="contato-icone">{% include icone.html nome="email" %}</span>
+        <span><small>E-mail</small>{{ site.contato.email }}</span>
+      </a>
+      <a class="contato-card" href="https://www.instagram.com/{{ site.contato.instagram }}/" target="_blank" rel="noopener">
+        <span class="contato-icone">{% include icone.html nome="instagram" %}</span>
+        <span><small>Instagram</small>@{{ site.contato.instagram }}</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="rodape">
+  <div class="container rodape-grid">
+    <div class="rodape-marca">
+      <img src="{{ '/assets/img/logo.png' | relative_url }}" alt="Souza Engenharia" width="400" height="160" loading="lazy">
+      <p>Engenharia Condominial com responsabilidade técnica: diagnóstico, projeto, execução e fiscalização em um único parceiro.</p>
+    </div>
+    <div>
+      <h3>Serviços</h3>
+      <ul>
+        {% for s in servicos_ordenados %}<li><a href="{{ s.url | relative_url }}">{{ s.title }}</a></li>{% endfor %}
+      </ul>
+    </div>
+    <div>
+      <h3>Institucional</h3>
+      <ul>
+        <li><a href="{{ '/sobre/' | relative_url }}">Sobre a empresa</a></li>
+        <li><a href="{{ '/galeria/' | relative_url }}">Galeria de obras</a></li>
+        <li><a href="{{ '/servicos/' | relative_url }}">Todos os serviços</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Contato</h3>
+      <ul>
+        <li><a href="https://wa.me/{{ site.contato.whatsapp }}" target="_blank" rel="noopener">{{ site.contato.whatsapp_exibicao }}</a></li>
+        <li><a href="mailto:{{ site.contato.email }}">{{ site.contato.email }}</a></li>
+        <li><a href="https://www.instagram.com/{{ site.contato.instagram }}/" target="_blank" rel="noopener">@{{ site.contato.instagram }}</a></li>
+        <li>{{ site.contato.regiao }}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="container rodape-legal">
+    <span>&copy; {{ site.time | date: "%Y" }} Souza Engenharia. CNPJ {{ site.empresa.cnpj }}</span>
+    <span>Responsável técnico: {{ site.empresa.responsavel }}, {{ site.empresa.crea }}</span>
+  </div>
+</footer>

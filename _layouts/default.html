@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="{{ site.lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>document.documentElement.classList.add("js");</script>
+  {% if page.url == "/" %}{% assign titulo_pagina = site.title | append: " | " | append: site.tagline | append: " em Salvador" %}{% else %}{% assign titulo_pagina = page.title | append: " | " | append: site.title %}{% endif %}
+  <title>{{ titulo_pagina }}</title>
+  <meta name="description" content="{{ page.resumo | default: page.description | default: site.description | strip_newlines | strip }}">
+  <meta name="theme-color" content="#C43E50">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="{{ site.title }}">
+  <meta property="og:title" content="{{ titulo_pagina }}">
+  <meta property="og:description" content="{{ page.resumo | default: page.description | default: site.description | strip_newlines | strip }}">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <meta property="og:image" content="{{ '/assets/img/logo-grande.png' | absolute_url }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/img/icone-32.png' | relative_url }}">
+  <link rel="apple-touch-icon" href="{{ '/assets/img/icone-180.png' | relative_url }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/estilo.css' | relative_url }}">
+</head>
+<body class="{{ page.classe_body }}">
+  {% include cabecalho.html %}
+
+  <main id="conteudo">
+    {{ content }}
+  </main>
+
+  {% include rodape.html %}
+
+  <a class="whats-flutuante" href="https://wa.me/{{ site.contato.whatsapp }}?text={{ site.contato.whatsapp_mensagem | uri_escape }}" target="_blank" rel="noopener" aria-label="Conversar no WhatsApp">
+    {% include icone.html nome="whatsapp" %}
+  </a>
+
+  <div class="lightbox" id="lightbox" hidden>
+    <button class="lb-fechar" type="button" aria-label="Fechar">&times;</button>
+    <button class="lb-nav lb-ant" type="button" aria-label="Foto anterior">&#8249;</button>
+    <figure class="lb-figura">
+      <img src="" alt="">
+      <figcaption></figcaption>
+    </figure>
+    <button class="lb-nav lb-prox" type="button" aria-label="Próxima foto">&#8250;</button>
+  </div>
+
+  <script src="{{ '/assets/js/site.js' | relative_url }}" defer></script>
+</body>
+</html>

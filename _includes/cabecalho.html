@@ -1,0 +1,31 @@
+{% assign servicos_ordenados = site.servicos | sort: "order" %}
+<header class="topo" id="topo">
+  <div class="container topo-inner">
+    <a class="topo-logo" href="{{ '/' | relative_url }}" aria-label="Souza Engenharia, página inicial">
+      <img src="{{ '/assets/img/logo.png' | relative_url }}" alt="Souza Engenharia" width="400" height="160">
+    </a>
+
+    <button class="menu-botao" type="button" aria-expanded="false" aria-controls="menu-principal" aria-label="Abrir menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="menu" id="menu-principal" aria-label="Menu principal">
+      <a href="{{ '/' | relative_url }}" {% if page.url == "/" %}aria-current="page"{% endif %}>Início</a>
+      <div class="menu-grupo">
+        <a href="{{ '/servicos/' | relative_url }}" class="menu-pai" {% if page.url contains "/servicos/" %}aria-current="page"{% endif %}>Serviços <span class="seta" aria-hidden="true"></span></a>
+        <div class="submenu">
+          {% for s in servicos_ordenados %}
+          <a href="{{ s.url | relative_url }}">
+            <span class="submenu-icone">{% include icone.html nome=s.icone %}</span>
+            {{ s.title }}
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      <a href="{{ '/galeria/' | relative_url }}" {% if page.url contains "/galeria/" %}aria-current="page"{% endif %}>Galeria</a>
+      <a href="{{ '/sobre/' | relative_url }}" {% if page.url contains "/sobre/" %}aria-current="page"{% endif %}>Sobre</a>
+      <a href="#contato">Contato</a>
+      <a class="botao botao-primario menu-cta" href="https://wa.me/{{ site.contato.whatsapp }}?text={{ site.contato.whatsapp_mensagem | uri_escape }}" target="_blank" rel="noopener">Solicitar orçamento</a>
+    </nav>
+  </div>
+</header>

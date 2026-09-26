@@ -1,0 +1,32 @@
+---
+layout: default
+title: Serviços
+permalink: /servicos/
+description: Serviços de Engenharia Condominial da Souza Engenharia em Salvador. Impermeabilização, inspeção predial, fachadas, fiscalização de obras, AVCB, SPDA e veículos elétricos.
+---
+{% assign servicos_ordenados = site.servicos | sort: "order" %}
+<section class="pagina-topo">
+  <div class="container">
+    <nav class="trilha" aria-label="Você está em">
+      <a href="{{ '/' | relative_url }}">Início</a><span>/</span><span>Serviços</span>
+    </nav>
+    <p class="sobretitulo">Engenharia Condominial</p>
+    <h1>Serviços técnicos para toda a vida útil do condomínio.</h1>
+    <p class="lead">Diagnóstico, execução e gestão com responsabilidade técnica. Escolha o serviço para conhecer escopo, entregáveis e registros de obras realizadas.</p>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container lista-servicos">
+    {% for s in servicos_ordenados %}
+    <a class="linha-servico revelar" href="{{ s.url | relative_url }}">
+      <span class="servico-icone">{% include icone.html nome=s.icone %}</span>
+      <span>
+        <h2>{{ s.title }}</h2>
+        <p>{{ s.card }}</p>
+      </span>
+      <span class="link-seta">Ver serviço {% include icone.html nome="seta" %}</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>

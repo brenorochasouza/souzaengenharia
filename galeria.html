@@ -1,0 +1,44 @@
+---
+layout: default
+title: Galeria de obras
+permalink: /galeria/
+description: Galeria de obras e inspeções realizadas pela Souza Engenharia em condomínios de Salvador.
+---
+{% assign servicos_ordenados = site.servicos | sort: "order" %}
+{% capture grade_galeria %}{% include fotos.html rotulos=true %}{% endcapture %}
+{% assign grade_galeria_limpa = grade_galeria | strip %}
+<section class="pagina-topo">
+  <div class="container">
+    <nav class="trilha" aria-label="Você está em">
+      <a href="{{ '/' | relative_url }}">Início</a><span>/</span><span>Galeria</span>
+    </nav>
+    <p class="sobretitulo">Galeria de obras</p>
+    <h1>Registros das nossas obras e inspeções.</h1>
+    <p class="lead">Acompanhe trabalhos realizados pela Souza Engenharia em condomínios e empresas. Use os filtros para ver cada tipo de serviço.</p>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container">
+    {% if grade_galeria_limpa != "" %}
+    <div class="filtros" role="group" aria-label="Filtrar por serviço">
+      <button class="filtro ativo" type="button" data-filtro="todas">Todas</button>
+      {% for s in servicos_ordenados %}
+      <button class="filtro" type="button" data-filtro="{{ s.pasta }}">{{ s.title_curto | default: s.title }}</button>
+      {% endfor %}
+    </div>
+    <div class="fotos-grade">
+      {{ grade_galeria }}
+    </div>
+    <div class="galeria-vazia" data-filtrado hidden>
+      {% include icone.html nome="capacete" %}
+      <p>Ainda não há fotos deste serviço na galeria. Em breve, novos registros.</p>
+    </div>
+    {% else %}
+    <div class="galeria-vazia">
+      {% include icone.html nome="capacete" %}
+      <p>A galeria está sendo atualizada com os registros das nossas obras. Volte em breve.</p>
+    </div>
+    {% endif %}
+  </div>
+</section>

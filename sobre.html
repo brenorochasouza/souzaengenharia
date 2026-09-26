@@ -1,0 +1,75 @@
+---
+layout: default
+title: Sobre a empresa
+permalink: /sobre/
+description: Conheça a Souza Engenharia, empresa de Engenharia Condominial em Salvador com mais de 260 condomínios atendidos.
+---
+<section class="pagina-topo">
+  <div class="container">
+    <nav class="trilha" aria-label="Você está em">
+      <a href="{{ '/' | relative_url }}">Início</a><span>/</span><span>Sobre</span>
+    </nav>
+    <p class="sobretitulo">Sobre a Souza Engenharia</p>
+    <h1>Engenharia diagnóstica a serviço dos condomínios de Salvador.</h1>
+    <p class="lead">Somos uma empresa de Engenharia Condominial que une conhecimento técnico, experiência pericial e execução de obras para cuidar do patrimônio de quem vive e trabalha nas edificações.</p>
+  </div>
+</section>
+
+<section class="numeros" aria-label="A Souza Engenharia em números">
+  <div class="container numeros-grid">
+    {% for n in site.numeros %}
+    <div class="numero">
+      <strong data-valor="{{ n.valor }}" data-prefixo="{{ n.prefixo }}" data-sufixo="{{ n.sufixo }}">{{ n.prefixo }}{{ n.valor | replace: ".", "," }}{{ n.sufixo }}</strong>
+      <span>{{ n.rotulo }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container sobre-grid">
+    <div class="conteudo-texto revelar">
+      <h2>Quem somos</h2>
+      <p>A Souza Engenharia nasceu da experiência em engenharia diagnóstica e perícias técnicas para oferecer aos condomínios algo que costuma faltar no mercado: um parceiro que entende a causa dos problemas, propõe a solução correta e acompanha sua execução até o fim.</p>
+      <p>Atendemos síndicos profissionais e orgânicos, administradoras, empresas e instituições em {{ site.contato.regiao }}. Nossa atuação vai da inspeção predial e de fachadas às obras de impermeabilização, passando pela fiscalização de obras contratadas pelo condomínio, regularização junto ao Corpo de Bombeiros e laudos de SPDA.</p>
+      <p>Cada trabalho é conduzido com responsabilidade técnica, registro fotográfico, referências normativas e documentação completa, para que o síndico tenha segurança na tomada de decisão e na prestação de contas.</p>
+
+      <h2>Nossos compromissos</h2>
+      <div class="valores">
+        <div class="valor"><h3>Diagnóstico antes da obra</h3><p>Nenhuma solução é proposta sem entender a origem do problema.</p></div>
+        <div class="valor"><h3>Transparência</h3><p>Escopo claro, relatórios objetivos e comunicação direta com o síndico.</p></div>
+        <div class="valor"><h3>Rigor normativo</h3><p>Serviços alinhados às normas técnicas ABNT e à legislação vigente.</p></div>
+        <div class="valor"><h3>Responsabilidade técnica</h3><p>Todos os laudos e obras acompanhados de ART e engenheiro responsável.</p></div>
+      </div>
+    </div>
+
+    <aside class="revelar">
+      <div class="rt-cartao">
+        <img src="{{ '/assets/img/logo.png' | relative_url }}" alt="Souza Engenharia" width="400" height="160" loading="lazy">
+        <p class="rt-nome">Eng. Breno Rocha Souza</p>
+        <p class="rt-cargo">Diretor técnico e responsável técnico<br>{{ site.empresa.crea }}</p>
+        <ul class="formacao">
+          <li><strong>Engenharia Civil</strong><span>Especialista em Patologia das Construções e Engenharia Diagnóstica</span></li>
+          <li><strong>Estruturas de Concreto Armado e Fundações</strong><span>Pós-graduação</span></li>
+          <li><strong>MBA em Gestão de Obras</strong><span>Pós-graduação</span></li>
+          <li><strong>Sistemas de Impermeabilização</strong><span>Especialização Soprema Group</span></li>
+          <li><strong>Gerenciamento de Projetos</strong><span>Especialização Ensign College</span></li>
+          <li><strong>Engenharia Condominial</strong><span>Em curso, IDD</span></li>
+        </ul>
+        <div class="credenciais" style="margin-top:22px">
+          <span class="credencial">Perito IBAPE-BA nº 573</span>
+          <span class="credencial">Perito nomeado TJBA</span>
+          <span class="credencial">Membro ADPAT nº 973</span>
+          <span class="credencial">Escola do Síndico</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="clientes" aria-label="Clientes">
+  <p class="clientes-titulo">Empresas e condomínios que confiam na Souza Engenharia</p>
+  <div class="faixa">
+    {% for c in site.clientes %}<span class="faixa-item">{{ c }}</span>{% endfor %}{% for c in site.clientes %}<span class="faixa-item" aria-hidden="true">{{ c }}</span>{% endfor %}{% for i in (1..2) %}{% for c in site.clientes %}<span class="faixa-item" aria-hidden="true">{{ c }}</span>{% endfor %}{% endfor %}
+  </div>
+</section>

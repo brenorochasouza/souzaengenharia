@@ -1,0 +1,211 @@
+---
+layout: default
+description: Engenharia Condominial em Salvador. Mais de 260 condomínios atendidos em impermeabilização, inspeção predial, inspeção de fachadas, fiscalização de obras, AVCB e SPDA.
+---
+{% assign servicos_ordenados = site.servicos | sort: "order" %}
+
+<!-- ============ ABERTURA ============ -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-texto">
+      <p class="sobretitulo">Engenharia Condominial em Salvador</p>
+      <h1>A engenharia <em>completa</em> para o seu condomínio.</h1>
+      <p class="hero-lead">Do diagnóstico à obra entregue. Mais de 260 condomínios já confiaram à Souza Engenharia suas inspeções, laudos e obras, com um único parceiro técnico para identificar o problema, executar a solução e fiscalizar cada etapa.</p>
+      <div class="hero-botoes">
+        <a class="botao botao-primario" href="https://wa.me/{{ site.contato.whatsapp }}?text={{ site.contato.whatsapp_mensagem | uri_escape }}" target="_blank" rel="noopener">{% include icone.html nome="whatsapp" %} Solicitar orçamento</a>
+        <a class="botao botao-contorno" href="#servicos">Conheça os serviços</a>
+      </div>
+      <div class="hero-selos">
+        <span>{% include icone.html nome="medalha" %} Perito IBAPE-BA e TJBA</span>
+        <span>{% include icone.html nome="check" %} Laudos com ART</span>
+        <span>{% include icone.html nome="local" %} {{ site.contato.regiao }}</span>
+      </div>
+    </div>
+
+    <div class="hero-arte">
+      {% include arte-hero.html %}
+      <div class="hero-card hero-card-1">
+        <span class="hc-icone">{% include icone.html nome="predial" %}</span>
+        <span><strong>260+</strong><small>condomínios<br>atendidos</small></span>
+      </div>
+      <div class="hero-card hero-card-2">
+        <span class="hc-icone">{% include icone.html nome="impermeabilizacao" %}</span>
+        <span><strong>100 mil m²</strong><small>de áreas<br>inspecionadas</small></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NÚMEROS ============ -->
+<section class="numeros" aria-label="A Souza Engenharia em números">
+  <div class="container numeros-grid">
+    {% for n in site.numeros %}
+    <div class="numero">
+      <strong data-valor="{{ n.valor }}" data-prefixo="{{ n.prefixo }}" data-sufixo="{{ n.sufixo }}">{{ n.prefixo }}{{ n.valor | replace: ".", "," }}{{ n.sufixo }}</strong>
+      <span>{{ n.rotulo }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ============ ENGENHARIA CONDOMINIAL ============ -->
+<section class="secao">
+  <div class="container">
+    <div class="pilares-intro">
+      <div class="revelar">
+        <p class="sobretitulo">Engenharia Condominial</p>
+        <h2>Um único parceiro técnico para todas as decisões do condomínio.</h2>
+      </div>
+      <p class="revelar">O síndico não precisa contratar uma empresa para o laudo, outra para a obra e uma terceira para fiscalizar. A Souza Engenharia integra diagnóstico, execução e gestão com a mesma responsabilidade técnica, do primeiro contato à entrega documentada.</p>
+    </div>
+
+    <div class="pilares">
+      <div class="pilar revelar">
+        <span class="pilar-num">01</span>
+        <div class="pilar-icone">{% include icone.html nome="predial" %}</div>
+        <h3>Diagnóstico</h3>
+        <p>Entender o problema antes de gastar com a solução.</p>
+        <ul>
+          <li>{% include icone.html nome="check" %} Inspeção predial</li>
+          <li>{% include icone.html nome="check" %} Inspeção de fachadas</li>
+          <li>{% include icone.html nome="check" %} Laudos técnicos e periciais</li>
+        </ul>
+      </div>
+      <div class="pilar revelar">
+        <span class="pilar-num">02</span>
+        <div class="pilar-icone">{% include icone.html nome="capacete" %}</div>
+        <h3>Execução</h3>
+        <p>Obras realizadas com método, controle e garantia.</p>
+        <ul>
+          <li>{% include icone.html nome="check" %} Obras de impermeabilização</li>
+          <li>{% include icone.html nome="check" %} Adequações para AVCB</li>
+          <li>{% include icone.html nome="check" %} Ensaios e entrega com ART</li>
+        </ul>
+      </div>
+      <div class="pilar revelar">
+        <span class="pilar-num">03</span>
+        <div class="pilar-icone">{% include icone.html nome="gestao" %}</div>
+        <h3>Gestão e consultoria</h3>
+        <p>O condomínio assessorado em cada contratação.</p>
+        <ul>
+          <li>{% include icone.html nome="check" %} Fiscalização de obras</li>
+          <li>{% include icone.html nome="check" %} Escopo e equalização de propostas</li>
+          <li>{% include icone.html nome="check" %} Apoio técnico em assembleias</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVIÇOS ============ -->
+<section class="secao secao-clara" id="servicos">
+  <div class="container">
+    <div class="cabeca-secao revelar">
+      <p class="sobretitulo">Nossos serviços</p>
+      <h2>Soluções técnicas para cada necessidade do condomínio.</h2>
+      <p>Da cobertura à garagem, atuamos em todos os sistemas da edificação com engenheiros especializados e documentação completa.</p>
+    </div>
+
+    <div class="servicos-grid">
+      {% for s in servicos_ordenados %}
+      <a class="servico-card revelar{% if s.destaque %} servico-destaque{% endif %}" href="{{ s.url | relative_url }}">
+        {% if s.destaque %}<span class="etiqueta">Especialidade</span><span class="servico-destaque-marca" aria-hidden="true"></span>{% endif %}
+        <span class="servico-icone">{% include icone.html nome=s.icone %}</span>
+        <h3>{{ s.title }}</h3>
+        <p>{{ s.card }}</p>
+        <span class="link-seta">Saiba mais {% include icone.html nome="seta" %}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLIENTES ============ -->
+<section class="clientes" aria-label="Clientes">
+  <p class="clientes-titulo">Empresas e condomínios que confiam na Souza Engenharia</p>
+  <div class="faixa">
+    {% for c in site.clientes %}<span class="faixa-item">{{ c }}</span>{% endfor %}{% for c in site.clientes %}<span class="faixa-item" aria-hidden="true">{{ c }}</span>{% endfor %}{% for i in (1..2) %}{% for c in site.clientes %}<span class="faixa-item" aria-hidden="true">{{ c }}</span>{% endfor %}{% endfor %}
+  </div>
+</section>
+
+<!-- ============ COMO TRABALHAMOS ============ -->
+<section class="secao processo">
+  <div class="container">
+    <div class="cabeca-secao revelar">
+      <p class="sobretitulo">Como trabalhamos</p>
+      <h2>Método técnico em todas as etapas.</h2>
+      <p>Um processo claro, que dá ao síndico segurança para decidir e transparência para prestar contas.</p>
+    </div>
+    <div class="etapas">
+      <div class="etapa revelar">
+        <div class="etapa-num">01</div>
+        <h3>Visita técnica</h3>
+        <p>Vistoria no local para entender a demanda, levantar informações e registrar as condições existentes.</p>
+      </div>
+      <div class="etapa revelar">
+        <div class="etapa-num">02</div>
+        <h3>Diagnóstico e proposta</h3>
+        <p>Análise técnica das causas e proposta com escopo detalhado, prazos e referências normativas.</p>
+      </div>
+      <div class="etapa revelar">
+        <div class="etapa-num">03</div>
+        <h3>Execução acompanhada</h3>
+        <p>Serviços conduzidos e fiscalizados por engenheiro, com relatórios e registro fotográfico.</p>
+      </div>
+      <div class="etapa revelar">
+        <div class="etapa-num">04</div>
+        <h3>Entrega documentada</h3>
+        <p>Laudos, relatórios, ART e garantias entregues ao condomínio para arquivo e prestação de contas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALERIA (aparece automaticamente quando houver fotos) ============ -->
+{% capture grade_home %}{% include fotos.html limite=8 rotulos=true %}{% endcapture %}
+{% assign grade_home_limpa = grade_home | strip %}
+{% if grade_home_limpa != "" %}
+<section class="secao">
+  <div class="container">
+    <div class="cabeca-secao revelar">
+      <p class="sobretitulo">Galeria de obras</p>
+      <h2>Trabalhos realizados.</h2>
+    </div>
+    <div class="fotos-grade fotos-grade-home">
+      {{ grade_home }}
+    </div>
+    <div class="rodape-galeria">
+      <a class="botao botao-contorno" href="{{ '/galeria/' | relative_url }}">Ver galeria completa</a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ============ RESPONSÁVEL TÉCNICO ============ -->
+<section class="secao secao-clara">
+  <div class="container rt-grid">
+    <div class="rt-cartao revelar">
+      <img src="{{ '/assets/img/logo.png' | relative_url }}" alt="Souza Engenharia" width="400" height="160" loading="lazy">
+      <p class="rt-nome">Eng. Breno Rocha Souza</p>
+      <p class="rt-cargo">Diretor técnico e responsável técnico</p>
+      <div class="credenciais">
+        <span class="credencial">{{ site.empresa.crea }}</span>
+        <span class="credencial">Perito IBAPE-BA</span>
+        <span class="credencial">Perito nomeado TJBA</span>
+        <span class="credencial">Membro ADPAT</span>
+        <span class="credencial">Especialista Soprema</span>
+      </div>
+    </div>
+    <div class="revelar">
+      <p class="sobretitulo">Responsabilidade técnica</p>
+      <h2>Engenharia diagnóstica conduzida por especialista.</h2>
+      <p>A Souza Engenharia é dirigida por engenheiro civil especialista em Patologia das Construções e Engenharia Diagnóstica, com atuação como perito judicial e formação voltada a estruturas, impermeabilização e gestão de obras.</p>
+      <ul class="lista-check">
+        <li>{% include icone.html nome="check" %} <span>Pós-graduado em Estruturas de Concreto Armado e Fundações e MBA em Gestão de Obras</span></li>
+        <li>{% include icone.html nome="check" %} <span>Especialista em Sistemas de Impermeabilização e em Gerenciamento de Projetos</span></li>
+        <li>{% include icone.html nome="check" %} <span>Diretor e responsável técnico da Escola do Síndico, dedicada à capacitação de síndicos profissionais</span></li>
+      </ul>
+      <a class="link-seta" href="{{ '/sobre/' | relative_url }}">Conheça a empresa {% include icone.html nome="seta" %}</a>
+    </div>
+  </div>
+</section>

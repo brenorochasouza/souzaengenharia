@@ -1,0 +1,12 @@
+{% comment %}
+  Lista automaticamente as fotos da pasta /fotos/<pasta>/ (ou de todas as pastas).
+  Uso: {% include fotos.html pasta="impermeabilizacao" limite=8 %}
+  Não é preciso editar este arquivo para adicionar fotos: basta enviar as imagens para a pasta.
+{% endcomment %}{% if include.pasta %}{% assign prefixo_fotos = "/fotos/" | append: include.pasta | append: "/" %}{% else %}{% assign prefixo_fotos = "/fotos/" %}{% endif %}{% assign limite_fotos = include.limite | default: 999 %}{% assign contador_fotos = 0 %}{% assign arquivos_fotos = site.static_files | sort: "path" | reverse %}{% for f in arquivos_fotos %}{% if f.path contains prefixo_fotos %}{% assign ext = f.extname | downcase %}{% if ext == ".jpg" or ext == ".jpeg" or ext == ".png" or ext == ".webp" %}{% assign partes = f.path | split: "/" %}{% assign pasta_foto = partes[2] %}{% assign servico_foto = site.servicos | where: "pasta", pasta_foto | first %}{% assign nome = f.basename %}{% assign nome_maiusc = nome | upcase %}{% assign inicio = nome_maiusc | slice: 0, 3 %}{% assign so_numeros = nome | remove: "0" | remove: "1" | remove: "2" | remove: "3" | remove: "4" | remove: "5" | remove: "6" | remove: "7" | remove: "8" | remove: "9" | remove: "_" | remove: "-" | remove: " " | remove: "." | remove: "(" | remove: ")" %}{% if inicio == "IMG" or inicio == "DSC" or inicio == "PXL" or inicio == "VID" or inicio == "WA0" or nome_maiusc contains "WHATSAPP" or nome_maiusc contains "SCREENSHOT" or so_numeros == "" %}{% assign legenda = "" %}{% else %}{% assign legenda = nome | replace: "-", " " | replace: "_", " " %}{% endif %}
+<figure class="foto revelar" data-cat="{{ pasta_foto }}">
+  <a class="foto-link" href="{{ f.path | relative_url }}" data-legenda="{% if legenda != '' %}{{ legenda | escape }}{% else %}{{ servico_foto.title | escape }}{% endif %}">
+    <img src="{{ f.path | relative_url }}" alt="{% if legenda != '' %}{{ legenda | escape }}{% else %}{{ servico_foto.title | default: 'Obra Souza Engenharia' | escape }}{% endif %}" loading="lazy" decoding="async">
+    {% if include.rotulos and servico_foto %}<span class="foto-rotulo">{{ servico_foto.title_curto | default: servico_foto.title }}</span>{% endif %}
+  </a>
+  {% if legenda != "" %}<figcaption>{{ legenda }}</figcaption>{% endif %}
+</figure>{% assign contador_fotos = contador_fotos | plus: 1 %}{% if contador_fotos >= limite_fotos %}{% break %}{% endif %}{% endif %}{% endif %}{% endfor %}

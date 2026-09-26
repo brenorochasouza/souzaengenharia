@@ -1,0 +1,54 @@
+---
+layout: default
+---
+{% assign servicos_ordenados = site.servicos | sort: "order" %}
+<section class="pagina-topo">
+  <div class="container">
+    <nav class="trilha" aria-label="Você está em">
+      <a href="{{ '/' | relative_url }}">Início</a><span>/</span>
+      <a href="{{ '/servicos/' | relative_url }}">Serviços</a><span>/</span>
+      <span>{{ page.title }}</span>
+    </nav>
+    <div class="pagina-topo-icone">{% include icone.html nome=page.icone %}</div>
+    <h1>{{ page.chamada | default: page.title }}</h1>
+    <p class="lead">{{ page.resumo }}</p>
+  </div>
+</section>
+
+<section class="secao">
+  <div class="container servico-layout">
+    <article class="conteudo-texto">
+      {{ content }}
+    </article>
+
+    <aside class="lateral">
+      <div class="lateral-cta">
+        <h3>Solicite uma visita técnica</h3>
+        <p>Converse diretamente com o responsável técnico e receba uma proposta adequada à realidade do seu condomínio.</p>
+        <a class="botao botao-primario" href="https://wa.me/{{ site.contato.whatsapp }}?text={{ 'Olá! Vim pelo site e gostaria de um orçamento de ' | append: page.title | uri_escape }}" target="_blank" rel="noopener">{% include icone.html nome="whatsapp" %} Falar no WhatsApp</a>
+      </div>
+      <div class="lateral-lista">
+        <h3>Outros serviços</h3>
+        {% for s in servicos_ordenados %}{% if s.url != page.url %}
+        <a href="{{ s.url | relative_url }}">{% include icone.html nome=s.icone %} {{ s.title }}</a>
+        {% endif %}{% endfor %}
+      </div>
+    </aside>
+  </div>
+</section>
+
+{% capture grade_servico %}{% include fotos.html pasta=page.pasta %}{% endcapture %}
+{% assign grade_servico_limpa = grade_servico | strip %}
+{% if grade_servico_limpa != "" %}
+<section class="secao secao-clara">
+  <div class="container">
+    <div class="cabeca-secao">
+      <p class="sobretitulo">Registro de obras</p>
+      <h2>{{ page.title }} na prática</h2>
+    </div>
+    <div class="fotos-grade">
+      {{ grade_servico }}
+    </div>
+  </div>
+</section>
+{% endif %}
