@@ -1,137 +1,122 @@
-/* Souza Engenharia | interações do site */
 (function () {
   "use strict";
+  var reduzir = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* Cabeçalho com sombra ao rolar */
+  // Cabeçalho: linha inferior ao rolar
   var topo = document.getElementById("topo");
-  function aoRolar() { if (topo) topo.classList.toggle("rolado", window.scrollY > 8); }
-  window.addEventListener("scroll", aoRolar, { passive: true });
-  aoRolar();
+  function marcarTopo() { if (topo) topo.classList.toggle("rolou", window.scrollY > 8); }
+  window.addEventListener("scroll", marcarTopo, { passive: true });
+  marcarTopo();
 
-  /* Menu no celular */
+  // Menu no celular
   var botaoMenu = document.querySelector(".menu-botao");
-  var menu = document.getElementById("menu-principal");
+  var menu = document.getElementById("menu");
   if (botaoMenu && menu) {
+    function fecharMenu() {
+      menu.classList.remove("aberto");
+      botaoMenu.setAttribute("aria-expanded", "false");
+      botaoMenu.setAttribute("aria-label", "Abrir menu");
+    }
     botaoMenu.addEventListener("click", function () {
       var aberto = menu.classList.toggle("aberto");
       botaoMenu.setAttribute("aria-expanded", aberto ? "true" : "false");
-      document.body.style.overflow = aberto ? "hidden" : "";
+      botaoMenu.setAttribute("aria-label", aberto ? "Fechar menu" : "Abrir menu");
     });
-    menu.addEventListener("click", function (e) {
-      if (e.target.closest("a")) {
-        menu.classList.remove("aberto");
-        botaoMenu.setAttribute("aria-expanded", "false");
-        document.body.style.overflow = "";
+    menu.addEventListener("click", function (e) { if (e.target.tagName === "A") fecharMenu(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") fecharMenu(); });
+  }
+
+  // Faixa de clientes passando continuamente
+  var faixa = document.querySelector("[data-faixa]");
+  if (faixa) {
+    var trilho = faixa.querySelector(".faixa-trilho");
+    var grupo = trilho.querySelector(".faixa-grupo");
+    var itensOriginais = Array.prototype.slice.call(grupo.children);
+
+    function montarFaixa() {
+      // Repete os itens até o grupo ser mais largo que a tela
+      var voltas = 0;
+      while (grupo.scrollWidth < faixa.clientWidth * 1.1 && voltas < 20) {
+        itensOriginais.forEach(function (item) {
+          var copia = item.cloneNode(true);
+          copia.setAttribute("aria-hidden", "true");
+          grupo.appendChild(copia);
+        });
+        voltas++;
+      }
+      if (reduzir) return;
+      // Segundo grupo idêntico para o laço não ter emenda
+      var clone = grupo.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      trilho.appendChild(clone);
+      var tempo = Math.max(20, grupo.scrollWidth / 45);
+      trilho.style.setProperty("--faixa-tempo", tempo + "s");
+      trilho.classList.add("animando");
+    }
+
+    var imagens = grupo.querySelectorAll("img");
+    var pendentes = 0;
+    Array.prototype.forEach.call(imagens, function (img) {
+      img.loading = "eager";
+      if (!img.complete) {
+        pendentes++;
+        var pronto = function () { pendentes--; if (pendentes === 0) montarFaixa(); };
+        img.addEventListener("load", pronto, { once: true });
+        img.addEventListener("error", pronto, { once: true });
       }
     });
+    if (pendentes === 0) montarFaixa();
   }
 
-  /* Contadores animados */
-  function formatar(valor, casas) {
-    return valor.toLocaleString("pt-BR", { minimumFractionDigits: casas, maximumFractionDigits: casas });
-  }
-  function animarContador(el) {
-    var alvo = parseFloat(el.getAttribute("data-valor"));
-    var casas = (el.getAttribute("data-valor").split(".")[1] || "").length;
-    var prefixo = el.getAttribute("data-prefixo") || "";
-    var sufixo = el.getAttribute("data-sufixo") || "";
-    var duracao = 1800, inicio = null;
-    function passo(t) {
-      if (!inicio) inicio = t;
-      var p = Math.min((t - inicio) / duracao, 1);
-      var suave = 1 - Math.pow(1 - p, 3);
-      el.textContent = prefixo + formatar(alvo * suave, casas) + sufixo;
-      if (p < 1) requestAnimationFrame(passo);
+  // Carrossel de obras
+  var carrossel = document.querySelector("[data-carrossel]");
+  if (carrossel) {
+    var pista = carrossel.querySelector(".obras-trilho");
+    var slides = pista.querySelectorAll(".obra");
+    var atual = carrossel.querySelector("[data-atual]");
+    var anterior = carrossel.querySelector("[data-anterior]");
+    var proximo = carrossel.querySelector("[data-proximo]");
+    var indice = 0;
+
+    function passo() { return slides.length > 1 ? slides[1].offsetLeft - slides[0].offsetLeft : pista.clientWidth; }
+    function indiceAtual() { return Math.round(pista.scrollLeft / passo()); }
+    function noFim() { return pista.scrollLeft + pista.clientWidth >= pista.scrollWidth - 4; }
+
+    function irPara(i) {
+      if (i < 0) i = slides.length - 1;
+      if (i >= slides.length || (i > indice && noFim())) i = 0;
+      pista.scrollTo({ left: slides[i].offsetLeft - slides[0].offsetLeft, behavior: reduzir ? "auto" : "smooth" });
     }
-    requestAnimationFrame(passo);
-  }
 
-  /* Revelar elementos ao rolar */
-  var reduzir = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if ("IntersectionObserver" in window && !reduzir) {
-    var obs = new IntersectionObserver(function (entradas) {
-      entradas.forEach(function (en) {
-        if (!en.isIntersecting) return;
-        en.target.classList.add("visivel");
-        if (en.target.hasAttribute("data-valor")) animarContador(en.target);
-        obs.unobserve(en.target);
-      });
-    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
-    document.querySelectorAll(".revelar, [data-valor]").forEach(function (el, i) {
-      if (el.classList.contains("revelar")) el.style.transitionDelay = ((i % 4) * 70) + "ms";
-      obs.observe(el);
-    });
-  } else {
-    document.querySelectorAll(".revelar").forEach(function (el) { el.classList.add("visivel"); });
-  }
+    pista.addEventListener("scroll", function () {
+      indice = Math.min(slides.length - 1, indiceAtual());
+      if (noFim()) indice = slides.length - 1;
+      if (atual) atual.textContent = String(indice + 1);
+    }, { passive: true });
 
-  /* Filtros da galeria */
-  var filtros = document.querySelectorAll(".filtro");
-  var vazio = document.querySelector(".galeria-vazia[data-filtrado]");
-  function aplicarFiltro(cat) {
-    var visiveis = 0;
-    filtros.forEach(function (b) { b.classList.toggle("ativo", b.getAttribute("data-filtro") === cat); });
-    document.querySelectorAll(".fotos-grade .foto").forEach(function (f) {
-      var mostra = cat === "todas" || f.getAttribute("data-cat") === cat;
-      f.classList.toggle("oculta", !mostra);
-      if (mostra) { visiveis++; f.classList.add("visivel"); }
-    });
-    if (vazio) vazio.hidden = visiveis > 0;
-  }
-  if (filtros.length) {
-    filtros.forEach(function (b) {
-      b.addEventListener("click", function () {
-        var cat = b.getAttribute("data-filtro");
-        aplicarFiltro(cat);
-        history.replaceState(null, "", cat === "todas" ? location.pathname : "#" + cat);
-      });
-    });
-    var inicial = decodeURIComponent(location.hash.replace("#", ""));
-    if (inicial && document.querySelector('.filtro[data-filtro="' + inicial + '"]')) aplicarFiltro(inicial);
-  }
+    anterior.addEventListener("click", function () { parar(); irPara(indice - 1); });
+    proximo.addEventListener("click", function () { parar(); irPara(indice + 1); });
 
-  /* Lightbox */
-  var lb = document.getElementById("lightbox");
-  if (!lb) return;
-  var lbImg = lb.querySelector("img"), lbLeg = lb.querySelector("figcaption");
-  var lista = [], atual = 0;
-  function mostrar(i) {
-    atual = (i + lista.length) % lista.length;
-    var a = lista[atual];
-    lbImg.src = a.getAttribute("href");
-    lbImg.alt = a.getAttribute("data-legenda") || "";
-    lbLeg.textContent = a.getAttribute("data-legenda") || "";
-  }
-  function abrir(a) {
-    var grade = a.closest(".fotos-grade") || document;
-    lista = Array.prototype.filter.call(grade.querySelectorAll(".foto-link"), function (x) {
-      return !x.closest(".foto").classList.contains("oculta");
+    // Avança sozinho enquanto estiver visível, até a pessoa interagir
+    var relogio = null, interagiu = false;
+    function iniciar() { if (!reduzir && !interagiu && !relogio && slides.length > 1) relogio = setInterval(function () { irPara(indice + 1); }, 4500); }
+    function pausar() { clearInterval(relogio); relogio = null; }
+    function parar() { interagiu = true; pausar(); }
+    pista.addEventListener("pointerdown", parar);
+    pista.addEventListener("wheel", parar, { passive: true });
+    pista.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); parar(); irPara(indice + 1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); parar(); irPara(indice - 1); }
     });
-    lb.hidden = false;
-    document.body.style.overflow = "hidden";
-    mostrar(lista.indexOf(a));
+    carrossel.addEventListener("mouseenter", pausar);
+    carrossel.addEventListener("mouseleave", iniciar);
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entradas) {
+        entradas.forEach(function (e) { if (e.isIntersecting) iniciar(); else pausar(); });
+      }, { threshold: 0.4 }).observe(carrossel);
+    } else {
+      iniciar();
+    }
   }
-  function fechar() { lb.hidden = true; lbImg.src = ""; document.body.style.overflow = ""; }
-  document.addEventListener("click", function (e) {
-    var a = e.target.closest(".foto-link");
-    if (a) { e.preventDefault(); abrir(a); }
-  });
-  lb.querySelector(".lb-fechar").addEventListener("click", fechar);
-  lb.querySelector(".lb-ant").addEventListener("click", function () { mostrar(atual - 1); });
-  lb.querySelector(".lb-prox").addEventListener("click", function () { mostrar(atual + 1); });
-  lb.addEventListener("click", function (e) { if (e.target === lb) fechar(); });
-  document.addEventListener("keydown", function (e) {
-    if (lb.hidden) return;
-    if (e.key === "Escape") fechar();
-    if (e.key === "ArrowLeft") mostrar(atual - 1);
-    if (e.key === "ArrowRight") mostrar(atual + 1);
-  });
-  var toqueX = null;
-  lb.addEventListener("touchstart", function (e) { toqueX = e.touches[0].clientX; }, { passive: true });
-  lb.addEventListener("touchend", function (e) {
-    if (toqueX === null) return;
-    var dx = e.changedTouches[0].clientX - toqueX;
-    if (Math.abs(dx) > 50) mostrar(atual + (dx < 0 ? 1 : -1));
-    toqueX = null;
-  });
 })();

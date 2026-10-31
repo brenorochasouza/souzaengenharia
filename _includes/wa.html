@@ -1,0 +1,2 @@
+{%- comment -%}Monta o link do WhatsApp com a mensagem já escrita. Uso: {% include wa.html msg="texto" %}{%- endcomment -%}
+https://wa.me/{{ site.contato.whatsapp }}?text={{ include.msg | default: site.mensagens.geral | uri_escape -}}

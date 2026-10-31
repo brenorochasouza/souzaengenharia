@@ -3,11 +3,12 @@ layout: default
 title: Página não encontrada
 permalink: /404.html
 ---
-<section class="pagina-topo">
+<section class="chamada" style="min-height:50vh;display:flex;align-items:center">
   <div class="container">
-    <p class="sobretitulo">Erro 404</p>
-    <h1>Página não encontrada.</h1>
-    <p class="lead">O endereço acessado não existe ou foi alterado.</p>
-    <p style="margin-top:28px"><a class="botao botao-primario" href="{{ '/' | relative_url }}">Voltar para o início</a></p>
+    <h1 style="font-size:clamp(2rem,4vw,3rem)">Página não encontrada</h1>
+    <p style="margin-top:12px;color:var(--tinta-2)">O endereço acessado não existe ou foi alterado.</p>
+    <div class="botoes" style="margin-top:28px">
+      <a class="botao botao-primario" href="{{ '/' | relative_url }}">Voltar para o início</a>
+    </div>
   </div>
 </section>

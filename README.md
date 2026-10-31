@@ -1,8 +1,7 @@
 # Souza Engenharia | site institucional
 
-Site da Souza Engenharia (Engenharia Condominial, Salvador/BA), publicado pelo GitHub Pages.
+Landing page da Souza Engenharia (impermeabilização e assessoria técnica para condomínios em Salvador), publicada pelo GitHub Pages.
 
 - Endereço: https://brenorochasouza.github.io/souzaengenharia/
-- Para adicionar fotos de obras, veja [COMO-ADICIONAR-FOTOS.md](COMO-ADICIONAR-FOTOS.md).
-- Contatos, números da empresa e lista de clientes ficam em `_config.yml`.
-- Os textos de cada serviço ficam na pasta `_servicos`.
+- Para adicionar logos de clientes, fotos de obras e sua foto, veja [COMO-ADICIONAR-IMAGENS.md](COMO-ADICIONAR-IMAGENS.md).
+- Contatos, números, serviços e mensagens do WhatsApp ficam em `_config.yml`.
